@@ -83,9 +83,6 @@ func (ac *AppController) Run() {
 }
 
 func (ac *AppController) showAddTaskDialog(win fyne.Window) {
-	//addTaskWindow := ac.app.NewWindow("Add Task")
-	//addTaskWindow.Resize(fyne.NewSize(400, 300))
-	//addTaskWindow.SetFixedSize(false)
 	titleEntry := widget.NewEntry()
 	descriptionEntry := widget.NewMultiLineEntry()
 	datePicker := widget.NewEntry()
@@ -116,40 +113,6 @@ func (ac *AppController) showAddTaskDialog(win fyne.Window) {
 
 	dlg.Resize(fyne.NewSize(400, 300))
 	dlg.Show()
-
-	//addButton := widget.NewButton("Add", func() {
-	//	defer addTaskWindow.Close()
-	//	date, err := time.Parse("02.01.2006", datePicker.Text)
-	//	if err != nil {
-	//		dialog.ShowError(errors.New("invalid date format"), win)
-	//		return
-	//	}
-	//	err = ac.taskManager.AddTask(titleEntry.Text, descriptionEntry.Text, date)
-	//	if err != nil {
-	//		dialog.ShowError(err, win)
-	//		return
-	//	}
-	//	//addedTask := ac.taskManager.Tasks[ac.view.GetSelectedTask()]
-	//	//ac.logger.Infof("Added task ", addedTask.Title, addedTask.Description)
-	//	ac.view.Refresh()
-	//})
-	//cancelButton := widget.NewButton("Cancel", func() {
-	//	addTaskWindow.Close()
-	//})
-	//addTaskWindow.SetContent(
-	//	container.NewBorder(
-	//		nil,
-	//		container.NewGridWithColumns(
-	//			2,
-	//			addButton,
-	//			cancelButton,
-	//		),
-	//		nil,
-	//		nil,
-	//		form,
-	//	),
-	//)
-	//addTaskWindow.Show()
 }
 
 func (ac *AppController) showEditTaskDialog(win fyne.Window, index int, task manager.Task) {
