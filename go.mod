@@ -2,7 +2,10 @@ module github.com/lemavisaitov/applied-informatics_3
 
 go 1.23.3
 
-require fyne.io/fyne/v2 v2.5.2
+require (
+	fyne.io/fyne/v2 v2.5.2
+	github.com/sirupsen/logrus v1.9.3
+)
 
 require (
 	fyne.io/systray v1.11.0 // indirect
