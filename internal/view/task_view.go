@@ -2,6 +2,7 @@ package view
 
 import (
 	"fyne.io/fyne/v2"
+	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/data/binding"
 	"fyne.io/fyne/v2/widget"
 	"github.com/lemavisaitov/applied-informatics_3/internal/manager"
@@ -13,21 +14,31 @@ type TaskView struct {
 	selectedTask int
 }
 
-func New(manager *manager.TaskManager) *TaskView {
+func New(taskManager *manager.TaskManager) *TaskView {
 	tv := &TaskView{
-		manager:      manager,
+		manager:      taskManager,
 		selectedTask: -1,
-		list: widget.NewList(
-			func() int {
-				return manager.Tasks.Length()
-			},
+		list: widget.NewListWithData(
+			taskManager.GetTasks(),
 			func() fyne.CanvasObject {
-				return widget.NewLabel("")
+				return container.NewBorder(
+					nil, nil, nil,
+					// left of the border
+					widget.NewCheck("", func(b bool) {}),
+					// takes the rest of the space
+					widget.NewLabel(""),
+				)
 			},
-			func(id widget.ListItemID, item fyne.CanvasObject) {
-				di, _ := manager.GetTasks().GetItem(id)
-				task := manager.NewTaskFromDataItem(di)
-				item.(*widget.Label).SetText(task.Title + " (" + task.Date.Format("02.01.2006") + ")")
+			func(di binding.DataItem, o fyne.CanvasObject) {
+				ctr, _ := o.(*fyne.Container)
+
+				l := ctr.Objects[0].(*widget.Label)
+				c := ctr.Objects[1].(*widget.Check)
+
+				diu, _ := di.(binding.Untyped).Get()
+				todo := diu.(manager.Task)
+				l.SetText(todo.Title)
+				c.SetChecked(todo.Done)
 			},
 		),
 	}
@@ -45,10 +56,12 @@ func (tv *TaskView) GetSelectedTask() int {
 	return tv.selectedTask
 }
 
-func (tv *TaskView) Widget() binding.UntypedList {
-	return tv.manager.Tasks
+func (tv *TaskView) Widget() fyne.CanvasObject {
+	return container.NewBorder(
+		nil,
+		nil,
+		nil,
+		nil,
+		tv.list,
+	)
 }
-
-//func (tv *TaskView) Widget() fyne.CanvasObject {
-//	return container.NewVBox(tv.list)
-//}
