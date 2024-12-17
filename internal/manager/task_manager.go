@@ -50,7 +50,7 @@ func (tm *TaskManager) RemoveTask(index int) error {
 	di, _ := tm.Tasks.GetItem(index)
 	task := tm.NewTaskFromDataItem(di)
 	tm.Logger.Infof("task: %s - removed", task.String())
-	err := tm.Tasks.Remove(di)
+	err := tm.Tasks.Remove(index)
 	if err != nil {
 		return err
 	}
